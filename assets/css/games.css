@@ -1,0 +1,224 @@
+:root{
+    --card-bg: #ffffff;
+    --card-border: #e6e6e6;
+    --muted: #777;
+    --accent: #0b84ff;
+    --danger: #d9534f;
+}
+
+/* — Rond central: lien + rotation + switch de texte — */
+.crest-link{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+.header .page{
+  /* styles existants conservés, on ajoute transition */
+  transition: transform .5s ease;
+  text-decoration: none;
+}
+.crest-text{
+  position: absolute;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+.crest-text--home{
+  opacity: 0;
+  transform: scale(.9) rotate(-20deg);
+  transition: all .35s ease;
+}
+.crest-text--game{
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  transition: all .35s ease;
+}
+.header .page:hover{
+  transform: translateX(-50%) rotate(360deg);
+}
+.header .page:hover .crest-text--game{
+  opacity: 0;
+  transform: scale(.9) rotate(20deg);
+}
+.header .page:hover .crest-text--home{
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.card-voucher {
+  display: flex;
+  gap: 18px;
+  border: 3px solid #222;
+  border-radius: 16px;
+  overflow: hidden;
+  padding: 16px;
+  align-items: stretch;
+  box-shadow: 0 6px 20px rgba(10,20,40,0.04);
+  transition: filter .25s ease, opacity .25s, transform .15s ease;
+  margin: 0 auto 20px;
+  width: min(1100px, calc(100% - 32px));
+  max-width : 700px;
+  background: var(--card-bg);
+}
+
+.card-voucher:hover {
+  box-shadow: 0px 0px 0px 1px grey;
+  transform: translateY(-2px);
+}
+
+
+.btn.dark {
+  background : black;
+  color : white;
+  border-color : transparent;
+  max-width : 85px;
+}
+
+.open-link {
+  max-width : 120px;
+}
+.expiry-text {
+  color : black;
+  padding : 4px;
+  border-radius : 5px;
+  background-color: rgba(255,255,255,0.6);
+}
+
+.card-voucher.expired{
+  filter:grayscale(1) contrast(.95);
+  opacity:.7;
+}
+.card-voucher.expired * { pointer-events: none; } /* désactive interactions internes */
+.card-voucher.expired a[aria-disabled="true"]{ cursor: default; }
+
+
+.card-voucher .left {
+  flex: 0 0 clamp(120px, 22%, 220px); 
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px;
+  border-radius:8px;
+}
+
+
+.qr-wrap{
+  width: var(--qr-size);
+  height: var(--qr-size);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background : solid white;
+}
+
+/* colonne droite : contenu */
+.card-voucher .right {
+  flex:1 1 0%;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  justify-content:space-between;
+  padding:6px 4px;
+  min-width: 0; 
+}
+
+/* titre en haut, centré horizontalement de la partie droite */
+.right .title {
+  text-align:center;
+  font-weight:700;
+  font-size:1.15rem;
+  margin-top:4px;
+  color : white;
+  background-color : black;
+  padding : 6px 8px;
+  border-radius : 6px;
+  word-break: break-word;
+}
+
+.title {
+  margin : 0 40px;
+}
+
+.center-actions{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  margin:6px 0;
+  flex-wrap:wrap; 
+}
+
+/* styles des boutons */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 14px;
+  border-radius:8px;
+  border:1px solid rgba(0,0,0,0.08);
+  background: #fff;
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+  font-weight:600;
+  box-shadow: 0 2px 6px rgba(10,20,40,0.04);
+  white-space:nowrap;
+}
+
+.btn.primary{
+  background:var(--accent);
+  color:white;
+  border-color: transparent;
+}
+
+.btn.ghost{
+  background:transparent;
+}
+
+.btn i { font-size:0.95rem; }
+
+.right .meta{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:var(--muted);
+  font-size:0.95rem;
+  gap:8px;
+}
+
+
+.name-gift p{
+  margin:0 0 8px 0;
+  font-weight:700;
+  font-size:1rem;
+}
+
+/* petites réponsivités - paliers */
+@media (max-width: 900px) {
+  .card-voucher { gap:14px; padding:14px; }
+  .qr-wrap { width: clamp(96px, 15vmin, 160px); height: clamp(96px, 15vmin, 160px); }
+  .card-voucher .left { flex: 0 0 clamp(110px, 26%, 200px); }
+  .right .title { font-size: 1.05rem; padding:5px 6px; }
+}
+
+@media (max-width:600px){
+  .card-voucher{
+    flex-direction:column;
+    align-items:center;
+    padding:12px;
+  }
+  .card-voucher .left{ width:100%; flex:0 0 auto; border-radius:8px; }
+  .qr-wrap{ width:140px; height:140px; }
+  .card-voucher .right{ width:100%; }
+  /* boutons empilent verticalement et prennent la largeur */
+  .center-actions{
+    flex-direction:column;
+    width:100%;
+  }
+  .center-actions .btn{ width:100%; justify-content:center; }
+}
+
+@media (max-width:420px){
+  .right .title { font-size:1rem; padding:4px 6px; }
+  .expiry-text { font-size:0.9rem; padding:3px; }
+}

@@ -1,0 +1,7 @@
+.card-voucher {
+    background: var(--card-bg) url("../img/brawl-stars/brawl-stars-voucher.jpg") no-repeat center/cover;
+}
+
+.copy-on-open {
+  background: var(--card-bg) url("../img/brawl-stars/brawl-stars-store.jpg") no-repeat center/cover;
+}

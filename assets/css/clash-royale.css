@@ -1,0 +1,7 @@
+.card-voucher {
+    background: var(--card-bg) url("../img/clash-royale/clash-royale-voucher.jpg") no-repeat center/cover;
+}
+
+.copy-on-open {
+  background: var(--card-bg) url("../img/clash-royale/clash-royale-store.jpg") no-repeat center/cover;
+}
