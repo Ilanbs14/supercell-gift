@@ -119,26 +119,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Gestion expiration ---
     const expiryAttr = card.dataset.expiry;
-    if (expiryAttr) {
-      const expiryDate = new Date(expiryAttr + 'T23:59:59');
-      const now = new Date();
-      const msPerDay = 24*60*60*1000;
-      const diffDays = Math.ceil((expiryDate - now) / msPerDay);
-      const formatDateFr = (d) => new Intl.DateTimeFormat('fr-FR', { year:'numeric', month:'2-digit', day:'2-digit' }).format(d);
+  if (expiryAttr) {
+  const expiryDate = new Date(expiryAttr + 'T00:00:00'); // minuit début du jour d'expiration
+  const now = new Date();
+  const msPerDay = 24 * 60 * 60 * 1000;
 
-      if (diffDays > 0) {
-        expiryText.textContent = `Expirera le ${formatDateFr(expiryDate)} (${diffDays} jour${diffDays>1?'s':''} restants)`;
-      } else if (diffDays === 0) {
-        expiryText.textContent = `Expire aujourd'hui (${formatDateFr(expiryDate)})`;
-      } else {
-        const daysSince = Math.abs(diffDays);
-        expiryText.textContent = `Expiré le ${formatDateFr(expiryDate)} (il y a ${daysSince} jour${daysSince>1?'s':''})`;
-        card.classList.add('expired');
-        if (openBtn) { openBtn.removeAttribute('href'); openBtn.setAttribute('aria-disabled', 'true'); }
-        if (copyBtn) { copyBtn.disabled = true; copyBtn.setAttribute('aria-disabled', 'true'); }
-      }
-    } else {
-      expiryText.textContent = 'Aucune date d’expiration définie';
+  // Différence en jours entiers (floor)
+  const diffDays = Math.floor((expiryDate - now) / msPerDay);
+
+  const formatDateFr = (d) =>
+    new Intl.DateTimeFormat('fr-FR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(d);
+
+  if (diffDays > 0) {
+    expiryText.textContent = `Expirera le ${formatDateFr(expiryDate)} (${diffDays} jour${diffDays > 1 ? 's' : ''} restants)`;
+  } else if (diffDays === 0) {
+    // Le jour même, on affiche heure et minutes restantes avant minuit
+    const diffMs = expiryDate.getTime() + msPerDay - now.getTime(); // temps restant jusqu'à minuit fin du jour d'expiration
+    const remainingHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const remainingMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    expiryText.textContent = `Expire dans ${remainingHours} heure${remainingHours > 1 ? 's' : ''} et ${remainingMinutes} minute${remainingMinutes > 1 ? 's' : ''}`;
+  } else {
+    const daysSince = Math.abs(diffDays);
+    expiryText.textContent = `Expiré le ${formatDateFr(expiryDate)} (il y a ${daysSince} jour${daysSince > 1 ? 's' : ''})`;
+    card.classList.add('expired');
+    if (openBtn) {
+      openBtn.removeAttribute('href');
+      openBtn.setAttribute('aria-disabled', 'true');
     }
-  });
-});
+    if (copyBtn) {
+      copyBtn.disabled = true;
+      copyBtn.setAttribute('aria-disabled', 'true');
+    }
+  }
+} else {
+  expiryText.textContent = 'Aucune date d’expiration définie';
+}
+
