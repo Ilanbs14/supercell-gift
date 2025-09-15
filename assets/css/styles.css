@@ -1,6 +1,6 @@
 /* assets/css/styles.css */
 :root{
-  --bg:#0b0b0b;
+  --bg:#333333;
   --ink:#ffffff;
   --muted:#cfcfcf;
   --accent:#ff4747;
@@ -49,3 +49,4 @@ a{color:inherit;text-decoration:none}
 .header .crest span{
     font-weight:800
 }
+
