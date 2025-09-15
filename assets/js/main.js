@@ -43,32 +43,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const url = clickLinkA ? clickLinkA.href.trim() : null;
 
-    // --- QR: génération initiale à bonne taille ---
     if (url && qrWrap) {
       generateQRCode(qrWrap, url);
     } else if (qrWrap) {
       qrWrap.textContent = 'Pas de lien';
     }
 
-    // --- Observe la taille du wrapper QR et regénère si change (responsive) ---
     if (qrWrap && typeof ResizeObserver !== 'undefined') {
       const ro = new ResizeObserver(debounce(entries => {
         for (const e of entries) {
-          // si la taille a changé, regénère
           if (url) generateQRCode(qrWrap, url);
         }
       }, 120));
       ro.observe(qrWrap);
-      // stocke l'observer sur l'élément si besoin de l'arrêter plus tard
       qrWrap._qrResizeObserver = ro;
     } else {
-      // fallback : regénérer au resize window (moins précis)
       window.addEventListener('resize', debounce(() => {
         if (url && qrWrap) generateQRCode(qrWrap, url);
       }, 180));
     }
 
-    // --- Lien ouvrir (met href si existe) et copy-on-open si demandé ---
     if (openBtn) {
       if (url) {
         openBtn.href = url;
@@ -79,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
           const copyWord = card.dataset.copyWord;
           const wantsCopyOnOpen = card.classList.contains('copy-on-open') || !!copyWord;
-          if (!wantsCopyOnOpen) return; // laisse le lien s'ouvrir normalement
+          if (!wantsCopyOnOpen) return;
           ev.preventDefault();
           const textToCopy = copyWord || url;
           try {
@@ -99,7 +93,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    // --- Copy bouton ---
     if (copyBtn) {
       copyBtn.addEventListener('click', async (ev) => {
         ev.preventDefault();
@@ -117,46 +110,41 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
 
-    // --- Gestion expiration ---
+    // --- Gestion expiration avancée ---
     const expiryAttr = card.dataset.expiry;
-  if (expiryAttr) {
-  const expiryDate = new Date(expiryAttr + 'T00:00:00'); // minuit début du jour d'expiration
-  const now = new Date();
-  const msPerDay = 24 * 60 * 60 * 1000;
+    if (expiryAttr) {
+      // Date d'expiration à 23:59:59 du jour donné
+      const expiryDate = new Date(expiryAttr + 'T23:59:59');
+      const now = new Date();
 
-  // Différence en jours entiers (floor)
-  const diffDays = Math.floor((expiryDate - now) / msPerDay);
+      const msPerDay = 24*60*60*1000;
+      const msToExpiry = expiryDate - now;
 
-  const formatDateFr = (d) =>
-    new Intl.DateTimeFormat('fr-FR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(d);
+      // Calcul du début de la journée d'expiration (minuit)
+      const expiryDayStart = new Date(expiryDate);
+      expiryDayStart.setHours(0,0,0,0);
 
-  if (diffDays > 0) {
-    expiryText.textContent = `Expirera le ${formatDateFr(expiryDate)} (${diffDays} jour${diffDays > 1 ? 's' : ''} restants)`;
-  } else if (diffDays === 0) {
-    // Le jour même, on affiche heure et minutes restantes avant minuit
-    const diffMs = expiryDate.getTime() + msPerDay - now.getTime(); // temps restant jusqu'à minuit fin du jour d'expiration
-    const remainingHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const remainingMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      // Formatage date FR
+      const formatDateFr = (d) => new Intl.DateTimeFormat('fr-FR', { year:'numeric', month:'2-digit', day:'2-digit' }).format(d);
 
-    expiryText.textContent = `Expire dans ${remainingHours} heure${remainingHours > 1 ? 's' : ''} et ${remainingMinutes} minute${remainingMinutes > 1 ? 's' : ''}`;
-  } else {
-    const daysSince = Math.abs(diffDays);
-    expiryText.textContent = `Expiré le ${formatDateFr(expiryDate)} (il y a ${daysSince} jour${daysSince > 1 ? 's' : ''})`;
-    card.classList.add('expired');
-    if (openBtn) {
-      openBtn.removeAttribute('href');
-      openBtn.setAttribute('aria-disabled', 'true');
+      if (msToExpiry < 0) {
+        // Déjà expiré (passé minuit du jour d'expiration)
+        expiryText.textContent = `Expiré le ${formatDateFr(expiryDate)}`;
+        card.classList.add('expired');
+        if (openBtn) { openBtn.removeAttribute('href'); openBtn.setAttribute('aria-disabled', 'true'); }
+        if (copyBtn) { copyBtn.disabled = true; copyBtn.setAttribute('aria-disabled', 'true'); }
+      } else if (msToExpiry <= 24*60*60*1000) {
+        // Dans les dernières 24h avant expiration
+        const hoursLeft = Math.floor(msToExpiry / (60*60*1000));
+        const minutesLeft = Math.floor((msToExpiry % (60*60*1000)) / (60*1000));
+        expiryText.textContent = `Expire dans ${hoursLeft} heure${hoursLeft>1?'s':''} et ${minutesLeft} minute${minutesLeft>1?'s':''}`;
+      } else {
+        // Expire plus tard, afficher la date complète et jours restants
+        const diffDays = Math.ceil(msToExpiry / msPerDay);
+        expiryText.textContent = `Expirera le ${formatDateFr(expiryDate)} (${diffDays} jour${diffDays>1?'s':''} restants)`;
+      }
+    } else {
+      expiryText.textContent = 'Aucune date d’expiration définie';
     }
-    if (copyBtn) {
-      copyBtn.disabled = true;
-      copyBtn.setAttribute('aria-disabled', 'true');
-    }
-  }
-} else {
-  expiryText.textContent = 'Aucune date d’expiration définie';
-}
-
+  });
+});
