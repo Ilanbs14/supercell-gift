@@ -1,0 +1,7 @@
+.card-voucher {
+    background: var(--card-bg) url("../img/clash-of-clans/clash-of-clan.png") no-repeat center/cover;
+}
+
+.copy-on-open {
+  background: var(--card-bg) url("../img/clash-of-clans/clash-of-clans.jpg") no-repeat center/cover;
+}
