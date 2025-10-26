@@ -6,33 +6,41 @@
   --shadow:0 8px 24px rgba(0,0,0,.35);
 }
 
-*{
-  box-sizing:border-box;
-}
+*{ box-sizing: border-box; }
 
-html, body {
+html, body{
   margin: 0;
   padding: 0;
   height: 100%;
   min-height: 100vh;
   background: radial-gradient(#258a97, #000000);
   color: var(--ink);
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu;
   display: flex;
   flex-direction: column;
 }
 
-.container {
+/* Conteneur principal : centré verticalement sur desktop */
+.container{
   flex: 1;
-  max-width: 1400px;
+  max-width: 1100px; /* augmente si besoin */
   margin: 0 auto;
   padding: 24px;
+  width: 100%;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+  justify-content: center; /* centre horizontalement la ligne */
+  align-items: center;     /* centre verticalement la ligne dans le body (desktop) */
 }
+
+/* --- Mobile behaviour: align top and allow stacking --- */
+@media (max-width: 800px) {
+  .container {
+    align-items: flex-start; /* le contenu commence en haut sur petits écrans */
+    padding-top: 40px;       /* espace visuel en haut (optionnel) */
+  }
+}
+
 
 a{
   color:inherit;
@@ -82,5 +90,6 @@ a{
 .header .crest span{
   font-weight:800;
 }
+
 
 
