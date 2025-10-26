@@ -1,16 +1,16 @@
-/* ---- Large screens: one centered row ---- */
+/* Grille : ligne unique sur desktop */
 .grid{
   display: flex;
   flex-wrap: nowrap;          /* une seule ligne */
   gap: 24px;
-  justify-content: center;    /* centre horizontalement la ligne */
-  align-items: center;
+  justify-content: center;    /* centre horizontalement */
+  align-items: center;        /* centre verticalement */
   width: 100%;
-  max-width: 1000px;          /* limite visuelle si besoin */
-  overflow: visible;          /* évite scroll horizontal sur desktop */
+  max-width: 1200px;          /* limite la ligne sur desktop */
+  overflow: visible;           /* pas de scroll horizontal */
 }
 
-/* Cartes : taille fixe / contrôlée */
+/* Cartes : responsive avec clamp() */
 .game-card{
   background:#111;
   border:2px solid #222;
@@ -20,52 +20,18 @@
   transition: transform .15s ease, border-color .15s ease;
   box-shadow: var(--shadow);
 
-  flex: 0 0 auto;   /* n'augmente pas avec l'espace disponible */
-  min-width: 300px; /* change pour agrandir/rétrécir */
-  max-width: 340px; /* optionnel */
+  flex: 0 0 auto;                     /* n'étire pas la carte */
+  min-width: 250px;                    /* taille minimale */
+  max-width: clamp(250px, 20vw, 450px); /* s’adapte à l’écran */
 }
 
-/* Image plus grande si tu veux */
 .game-card img{
   display:block;
   width:100%;
-  height:320px; /* modifie ici si nécessaire */
-  object-fit:cover;
+  height: clamp(250px, 25vw, 400px);   /* hauteur responsive */
+  object-fit: cover;
   background:#1a1a1a;
 }
-
-/* ---- Small screens: stacked column, no horizontal scroll ---- */
-@media (max-width: 800px) {
-  .grid{
-    display: grid;                    /* passe à une grille (1 colonne) */
-    grid-template-columns: 1fr;       /* une colonne qui prend toute la largeur */
-    gap: 18px;
-    justify-items: center;
-    align-items: start;
-    width: 100%;
-    overflow-x: hidden;               /* empêche le scroll horizontal */
-    padding: 0 12px;                  /* petit padding latéral sur mobile */
-  }
-
-  .game-card{
-    min-width: auto;  /* annule la min-width fixe */
-    max-width: 720px; /* limite la largeur pour laisser des marges */
-    width: 100%;      /* occupe la largeur de la grille (avec padding) */
-    box-sizing: border-box;
-  }
-
-  .game-card img{
-    height: 250px; /* hauteur plus adaptée sur mobile */
-  }
-}
-
-
-
-.game-card:hover{
-  transform:translateY(-4px);
-  border-color:#777;
-}
-
 
 .game-card .label{
   padding:12px 14px;
@@ -73,5 +39,31 @@
   text-align:center;
 }
 
+/* --- Mobile : empilement vertical et alignement en haut --- */
+@media (max-width: 800px) {
+  .container {
+    align-items: flex-start;  /* contenu commence en haut */
+    padding-top: 40px;
+  }
 
+  .grid{
+    display: grid;            /* grille 1 colonne */
+    grid-template-columns: 1fr;
+    gap: 18px;
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0 12px;
+  }
 
+  .game-card{
+    min-width: auto;
+    max-width: 720px;
+    width: 100%;
+  }
+
+  .game-card img{
+    height: 250px; /* hauteur adaptée pour mobile */
+  }
+}
