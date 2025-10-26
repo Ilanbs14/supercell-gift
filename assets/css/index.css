@@ -1,29 +1,37 @@
 /* Grille des jeux (accueil) */
-.grid{display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:18px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:18px;
+  justify-items:center; /* centre les cartes dans leurs cellules */
+  width:100%; /* pour utiliser toute la largeur */
 }
+
 .game-card{
   background:#111;
   border:2px solid #222;
-  border-radius:16px;overflow:hidden;
+  border-radius:16px;
+  overflow:hidden;
   cursor:pointer;
   transition:transform .15s ease, border-color .15s ease;
-  box-shadow:var(--shadow)
+  box-shadow:var(--shadow);
 }
+
 .game-card:hover{
-    transform:translateY(-4px);
-    border-color:#777
+  transform:translateY(-4px);
+  border-color:#777;
 }
+
 .game-card img{
-    display:block;
-    width:100%;
-    height:250px;
-    object-fit:cover;
-    background:#1a1a1a
+  display:block;
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  background:#1a1a1a;
 }
+
 .game-card .label{
-    padding:12px 14px;
-    font-weight:700;
-    text-align:center
+  padding:12px 14px;
+  font-weight:700;
+  text-align:center;
 }
