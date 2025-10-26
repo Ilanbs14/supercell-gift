@@ -10,16 +10,28 @@
   box-sizing:border-box;
 }
 
-html, body{
-  margin:0;
-  padding:0;
-  height:100%;
-  min-height:100vh;
-  background:radial-gradient(#258a97, #000000);
-  color:var(--ink);
-  font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;
-  display:flex;
-  flex-direction:column;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
+  background: radial-gradient(#258a97, #000000);
+  color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+
+  /* centrage total */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 a{
@@ -27,17 +39,6 @@ a{
   text-decoration:none;
 }
 
-/* Conteneur principal */
-.container{
-  flex:1; /* prend tout l’espace entre header et bas de page */
-  max-width:1100px;
-  margin:0 auto;
-  padding:24px;
-  width:100%; /* important pour que la grille occupe toute la largeur */
-
-  /* On retire le display:flex ici pour ne pas casser la grille */
-  display:block;
-}
 
 /* Bandeau haut */
 .header{
@@ -81,3 +82,4 @@ a{
 .header .crest span{
   font-weight:800;
 }
+
