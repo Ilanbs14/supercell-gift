@@ -24,14 +24,14 @@ html, body {
 
 .container {
   flex: 1;
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
 
-  /* centrage total */
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 a{
@@ -82,4 +82,5 @@ a{
 .header .crest span{
   font-weight:800;
 }
+
 
