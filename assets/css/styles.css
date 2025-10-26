@@ -20,57 +20,44 @@ html, body{
   flex-direction: column;
 }
 
-/* Conteneur principal : centré verticalement sur desktop */
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Conteneur principal */
 .container{
   flex: 1;
-  max-width: 1100px; /* augmente si besoin */
+  max-width: 1800px; /* permet aux cartes de grandir sur très grands écrans */
   margin: 0 auto;
   padding: 24px;
   width: 100%;
 
   display: flex;
   justify-content: center; /* centre horizontalement la ligne */
-  align-items: center;     /* centre verticalement la ligne dans le body (desktop) */
+  align-items: center;     /* centre verticalement la ligne */
 }
 
-/* --- Mobile behaviour: align top and allow stacking --- */
-@media (max-width: 800px) {
-  .container {
-    align-items: flex-start; /* le contenu commence en haut sur petits écrans */
-    padding-top: 40px;       /* espace visuel en haut (optionnel) */
-  }
-}
-
-
-a{
-  color:inherit;
-  text-decoration:none;
-}
-
-
-/* Bandeau haut */
+/* Bandeau header existant (inchangé) */
 .header{
-  background:#000; 
+  background: #000; 
   color:#fff; 
-  position:relative; 
+  position: relative; 
   padding:28px 16px 75px; 
   text-align:center;
   margin-bottom:90px;
 }
-
 .header h1{
   margin:0;
   font-weight:800;
   letter-spacing:.03em;
   text-shadow:-5px 2px 19px rgba(21,167,240,0.75);
 }
-
 .header small{
   display:block;
   opacity:.8;
   margin-top:6px;
 }
-
 .header .page{
   width:120px;
   height:120px;
@@ -86,10 +73,6 @@ a{
   justify-content:center;
   box-shadow:var(--shadow);
 }
-
 .header .crest span{
   font-weight:800;
 }
-
-
-
