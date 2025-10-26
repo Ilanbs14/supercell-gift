@@ -1,4 +1,3 @@
-/* assets/css/styles.css */
 :root{
   --bg:#333333;
   --ink:#ffffff;
@@ -28,38 +27,41 @@ a{
   text-decoration:none;
 }
 
+/* Conteneur principal */
 .container{
   flex:1; /* prend tout l’espace entre header et bas de page */
   max-width:1100px;
   margin:0 auto;
   padding:24px;
+  width:100%; /* important pour que la grille occupe toute la largeur */
 
-  display:flex;
-  justify-content:center; /* centre horizontalement */
-  align-items:flex-start; /* contenu aligné en haut, comme sur mobile */
+  /* On retire le display:flex ici pour ne pas casser la grille */
+  display:block;
 }
 
-/* Bandeau haut façon visuel fourni */
+/* Bandeau haut */
 .header{
-  background: #000; 
+  background:#000; 
   color:#fff; 
   position:relative; 
   padding:28px 16px 75px; 
   text-align:center;
-  margin-bottom : 90px;
+  margin-bottom:90px;
 }
+
 .header h1{
   margin:0;
   font-weight:800;
   letter-spacing:.03em;
-  text-shadow: -5px 2px 19px rgba(21, 167, 240, 0.75);
+  text-shadow:-5px 2px 19px rgba(21,167,240,0.75);
 }
+
 .header small{
   display:block;
   opacity:.8;
-  margin-top:6px
-
+  margin-top:6px;
 }
+
 .header .page{
   width:120px;
   height:120px;
@@ -73,10 +75,9 @@ a{
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:var(--shadow)
+  box-shadow:var(--shadow);
 }
+
 .header .crest span{
-    font-weight:800
+  font-weight:800;
 }
-
-
