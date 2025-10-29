@@ -25,6 +25,10 @@
   max-width: clamp(250px, 20vw, 450px); /* s’adapte à l’écran */
 }
 
+.game-card:hover{
+  border:3px solid white;
+}
+
 .game-card img{
   display:block;
   width:100%;
@@ -67,3 +71,4 @@
     height: 250px; /* hauteur adaptée pour mobile */
   }
 }
+
