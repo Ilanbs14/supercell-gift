@@ -26,7 +26,8 @@
 }
 
 .game-card:hover{
-  border:3px solid white;
+  border-color : rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .game-card img{
@@ -71,4 +72,5 @@
     height: 250px; /* hauteur adaptée pour mobile */
   }
 }
+
 
